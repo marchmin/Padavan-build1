@@ -33,6 +33,7 @@ jobs:
     - name: Clone source code
       run: |
         git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
+        echo "image_date=images_$(date +%Y%m%d)" >> $GITHUB_ENV
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         mkdir -p /opt/images/
@@ -109,3 +110,17 @@ jobs:
       with:
         name: Padavan-packages
         path: /opt/images
+    - name : Create archive
+      if: ${{ success() }}
+      run: |
+          cd /opt/rt-n56u
+          GIT_VERSION=`git rev-parse --short=7 HEAD 2>/dev/null` && [ -n "$GIT_VERSION" ] && \
+          image_name=images_${build_variant}_${GIT_VERSION} || image_name=images_${build_variant}
+          cd /opt/images; md5sum *.trx |tee md5sum.txt; 7z a -mx=9 ${image_name}.7z ./*
+          echo "image_name=${image_name}" >> $GITHUB_ENV
+    - name: Upload images to Artifact
+      if: ${ success() }
+      uses: actions/upload-artifact@v2.2.1
+      with:
+          name: ${{ image_date }}
+          path: /opt/images/*.7z
