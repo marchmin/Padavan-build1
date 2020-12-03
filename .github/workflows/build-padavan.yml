@@ -114,7 +114,7 @@ jobs:
           echo "image_name=${image_name}" >> $GITHUB_ENV
     - name: Upload images to Artifact
       if: ${ success() }
-      uses: actions/upload-artifact@v2.2.1
+      uses: actions/upload-artifact@master
       with:
           name: ${{ env.image_name_$(date +%Y%m%d) }}
           path: /opt/images/*.7z
