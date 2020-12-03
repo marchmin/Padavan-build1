@@ -122,5 +122,5 @@ jobs:
       if: ${{ success() }}
       uses: actions/upload-artifact@master
       with:
-          name: ${{ image_date }}
+          name: ${ image_date }
           path: /opt/images/*.7z
