@@ -123,5 +123,5 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         #  file=${ env.image_name }_$(date +%Y%m%d)
-          name: ${{ env.image_name _$(date +%Y%m%d)}}
+          name: ${{ env.image_name} _$(date +%Y%m%d)}
           path: /opt/images/*.7z
