@@ -33,10 +33,10 @@ jobs:
     - name: Clone source code
       run: |
         git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
-		echo "image_date=images_$(date +%Y%m%d)" >> $GITHUB_ENV
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         mkdir -p /opt/images/
+        echo "image_date=images_$(date +%Y%m%d)" >> $GITHUB_ENV
     - name: Set Golang
       run: |
         cd /opt/hostedtoolcache/go
