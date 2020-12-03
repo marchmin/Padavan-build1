@@ -119,8 +119,8 @@ jobs:
           cd /opt/images; md5sum *.trx |tee md5sum.txt; 7z a -mx=9 ${image_name}.7z ./*
           echo "image_name=${image_name}" >> $GITHUB_ENV
     - name: Upload images to Artifact
-      if: ${ success() }
-      uses: actions/upload-artifact@v2.2.1
+      if: ${{ success() }}
+      uses: actions/upload-artifact@master
       with:
-          name: ${ image_date }
+          name: ${{ image_date }}
           path: /opt/images/*.7z
