@@ -43,7 +43,7 @@ jobs:
         mv 1.15.5 1.14.12
     - name: Build Firmware
       env:
-        TNAME: K2P_nano-5.0 K2P-5.0
+        TNAME: K2P-5.0
       run: |
         cd /opt/rt-n56u/trunk
         if [ ! -f configs/templates/$TNAME.config ] ; then
