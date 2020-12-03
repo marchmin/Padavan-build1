@@ -43,7 +43,7 @@ jobs:
         mv 1.15.5 1.14.12
     - name: Build Firmware
       env:
-        TNAME: K2P_nano K2P_nano-5.0 K2P-5.0
+        TNAME: K2P_nano-5.0 K2P-5.0
       run: |
         cd /opt/rt-n56u/trunk
         if [ ! -f configs/templates/$TNAME.config ] ; then
@@ -78,7 +78,7 @@ jobs:
         echo "CONFIG_FIRMWARE_INCLUDE_SSSERVER=n" >> .config #SS server
         echo "CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=n" >> .config #DNSFORWARDER
         echo "CONFIG_FIRMWARE_INCLUDE_ADBYBY=y" >> .config #adbyby plus+
-        echo "CONFIG_FIRMWARE_INCLUDE_FRPC=n" >> .config #内网穿透FRPC
+        echo "CONFIG_FIRMWARE_INCLUDE_FRPC=y" >> .config #内网穿透FRPC
         echo "CONFIG_FIRMWARE_INCLUDE_FRPS=n" >> .config #内网穿透FRPS
         echo "CONFIG_FIRMWARE_INCLUDE_TUNSAFE=n" >> .config #TUNSAFE
         echo "CONFIG_FIRMWARE_INCLUDE_ALIDDNS=y" >> .config #阿里DDNS
@@ -109,3 +109,18 @@ jobs:
       with:
         name: Padavan-packages
         path: /opt/images
+      
+    - name : Create archive
+      if: ${{ success() }}
+      run: |
+          cd /opt/rt-n56u
+          GIT_VERSION=`git rev-parse --short=7 HEAD 2>/dev/null` && [ -n "$GIT_VERSION" ] && \
+          image_name=images_${build_variant}_${GIT_VERSION} || image_name=images_${build_variant}
+          cd /opt/images; md5sum *.trx |tee md5sum.txt; 7z a -mx=9 ${image_name}.7z ./*
+          echo "image_name=${image_name}" >> $GITHUB_ENV
+    - name: Upload images to Artifact
+      if: ${ success() }
+      uses: actions/upload-artifact@v2.2.1
+      with:
+          name: ${{ env.image_name_$(date +%Y%m%d) }}
+          path: /opt/images/*.7z
