@@ -24,4 +24,9 @@ jobs:
       uses: actions/checkout@master
     - name: Initialization environment
       run: |
-        echo "image_date=images_$(date +%Y%m%d)"
+        echo "images_$(date +%Y%m%d)"
+        echo "image_date=images_$(date +%Y%m%d)" >> $GITHUB_ENV
+    - name: Upload images to Artifact
+      with:
+          name: ${{ env.image_date }}
+      
