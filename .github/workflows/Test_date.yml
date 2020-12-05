@@ -28,5 +28,10 @@ jobs:
         echo "image_date=images_$(date +%Y%m%d)" >> $GITHUB_ENV
   #  - name: Upload images to Artifact
   #    with:
+
     - name: ${{ env.image_date }}
+#    - name: Upload images to Artifac
+      uses: actions/upload-artifact@v2.2.1
+      with:
+          name: ${{ env.image_date }}
       
