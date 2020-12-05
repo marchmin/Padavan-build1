@@ -24,14 +24,14 @@ jobs:
       uses: actions/checkout@master
     - name: Initialization environment
       run: |
-        echo "date_$(date -d'8 hour'+%Y%m%d)"
-        echo "image_date=images_$(date +%Y%m%d)" >> $GITHUB_ENV
+        echo "date_$(date -d'8 hour' +%Y%m%d)"
+        echo "image_date=images_$(date +%Y%m%d)"
   #  - name: Upload images to Artifact
   #    with:
 
-    - name: ${{ env.image_date }}
+ #   - name: ${{ env.image_date }}
 #    - name: Upload images to Artifac
-      uses: actions/upload-artifact@v2.2.1
+  #    uses: actions/upload-artifact@v2.2.1
 #      with:
   #        name: ${{ env.image_date }}
       
