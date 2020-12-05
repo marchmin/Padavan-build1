@@ -32,6 +32,6 @@ jobs:
     - name: ${{ env.image_date }}
 #    - name: Upload images to Artifac
       uses: actions/upload-artifact@v2.2.1
-      with:
-          name: ${{ env.image_date }}
+#      with:
+  #        name: ${{ env.image_date }}
       
