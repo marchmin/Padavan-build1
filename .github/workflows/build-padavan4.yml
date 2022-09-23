@@ -36,6 +36,7 @@ jobs:
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         mkdir -p /opt/images/
+        echo "image_date=$(date -d'8 hour' +%Y%m%d)" >> $GITHUB_ENV
     - name: Build Firmware
       env:
         TNAME: MSG1500
@@ -100,19 +101,13 @@ jobs:
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: $TNAME-Padavan-packages
+        name: ${ TNAME }-Padavan-packages
         path: /opt/images
     - name : Create archive
       if: ${{ success() }}
       run: |
           cd /opt/rt-n56u
           GIT_VERSION=`git rev-parse --short=7 HEAD 2>/dev/null` && [ -n "$GIT_VERSION" ] && \
-          image_name=images_${build_variant}_${GIT_VERSION} || image_name=images_${build_variant}
+          image_name=images_${ build_variant }_${GIT_VERSION} || image_name=images_${build_variant}
           cd /opt/images; md5sum *.trx |tee md5sum.txt; 7z a -mx=9 ${image_name}.7z ./*
-          echo "image_name=${TNAME}_${image_name}_${image_date}" >> $GITHUB_ENV
-    - name: Upload images to Artifact
-      if: ${{ success() }}
-      uses: actions/upload-artifact@master
-      with:
-          name: ${{ env.image_name }}
-          path: /opt/images/*.7z
+          echo "image_name=${ TNAME }_${ image_name }_${ image_date }" >> $GITHUB_ENV
