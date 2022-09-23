@@ -36,6 +36,7 @@ jobs:
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         mkdir -p /opt/images/
+        image_date=images_$(date +%Y%m%d)"
     - name: Build Firmware
       env:
         TNAME: MSG1500
@@ -100,5 +101,5 @@ jobs:
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: Padavan-packages
+        name: ${ env.TNAME }-Padavan-packages
         path: /opt/images
