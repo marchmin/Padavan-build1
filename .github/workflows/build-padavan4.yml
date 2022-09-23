@@ -4,7 +4,7 @@ name: Build Padavan
 on: 
   release:
     types: [published]
-  push:https://github.com/marchmin/Padavan-build1
+  push:
     tags:
     - 'v*'
   #  branches: 
